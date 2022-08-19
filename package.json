@@ -1,0 +1,39 @@
+{
+	"name": "simply-featured-video",
+	"version": "1.0.0",
+	"description": "",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "gulp build",
+		"deploy": "gulp deploy",
+		"clean": "gulp clean",
+		"download": "gulp download",
+		"format": "wp-scripts format",
+		"lint": "wp-scripts lint-js",
+		"start": "wp-scripts start"
+	},
+	"author": "zwwuu",
+	"license": "GPL-3.0-or-later",
+	"dependencies": {
+		"@wordpress/block-editor": "^9.7.0",
+		"@wordpress/components": "^19.17.0",
+		"@wordpress/compose": "^5.13.0",
+		"@wordpress/data": "^6.15.0",
+		"@wordpress/edit-post": "^6.12.0",
+		"@wordpress/editor": "^12.14.0",
+		"@wordpress/i18n": "^4.15.0",
+		"@wordpress/plugins": "^4.13.0",
+		"lodash": "^4.17.21"
+	},
+	"devDependencies": {
+		"needle": "^3.1.0",
+		"@wordpress/scripts": "^23.7.2",
+		"crypto-js": "^4.1.1",
+		"del": "^6.1.1",
+		"dotenv": "^16.0.1",
+		"gulp": "^4.0.2",
+		"gulp-cli": "^2.3.0",
+		"gulp-replace": "^1.1.3",
+		"gulp-zip": "^5.1.0"
+	}
+}
