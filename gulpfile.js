@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const zip = require('gulp-zip');
-const del = require('del');
+const rimraf = require('rimraf');
 const replace = require('gulp-replace');
 const {version} = require('./package.json');
 const exec = require('child_process').exec;
@@ -25,12 +25,29 @@ function generateOption(method, contentMD5, contentType, resourceURL) {
   return options;
 }
 
-function clean() {
-  return del(['dist/', 'build/', 'tmp/']);
+function clean(cb) {
+  rimraf('dist/', {}, function(err) {
+    cb(err);
+  });
+  rimraf('build/', {}, function(err) {
+    cb(err);
+  });
+  rimraf('tmp/', {}, function(err) {
+    cb(err);
+  });
+  rimraf('svn/trunk/', {}, function(err) {
+    cb(err);
+  });
 }
 
-function cleanUp() {
-  return del(['tmp/']);
+function cleanUp(cb) {
+  rimraf('tmp/', {}, function(err) {
+    cb(err);
+  });
+}
+
+function copyToTrunk() {
+  return gulp.src(['./tmp/**']).pipe(gulp.dest('svn/trunk'));
 }
 
 function createZip() {
@@ -96,8 +113,8 @@ async function upload() {
   });
 }
 
-exports.deploy = gulp.series(clean, js, copy, replaceVersion, createZip, upload, cleanUp);
+exports.deploy = gulp.series(clean, js, copy, replaceVersion, createZip, copyToTrunk, upload, cleanUp);
 
-exports.build = gulp.series(clean, js, copy, replaceVersion, createZip, cleanUp);
+exports.build = gulp.series(clean, js, copy, replaceVersion, createZip, copyToTrunk, cleanUp);
 
 exports.clean = clean;
