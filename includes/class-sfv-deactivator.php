@@ -4,12 +4,12 @@
  * Fired during plugin deactivation.
  *
  * @since      1.0.0
- * @package    Sfv
- * @subpackage Sfv/includes
+ * @package    SFV
+ * @subpackage SFV/includes
  * @author     zwwuu <zwwuu@protonmail.com>
  */
 
-class Sfv_Deactivator {
+class SFV_Deactivator {
 
 	/**
 	 * Run on deactivate.
