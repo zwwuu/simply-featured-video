@@ -161,7 +161,7 @@ class SFV_Admin {
                    value="<?php esc_attr_e( $post_obj->name ); ?>"
 				<?php esc_attr_e( in_array( $post_obj->name, $value ) ? 'checked' : '' ); ?>
             />
-			<?php esc_html_e( $post_obj->label ) ?>
+			<?php esc_html_e( $post_obj->label ); ?>
         </label>
         <br/>
 
