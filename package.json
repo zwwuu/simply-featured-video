@@ -7,7 +7,6 @@
 		"build": "gulp build",
 		"deploy": "gulp deploy",
 		"clean": "gulp clean",
-		"download": "gulp download",
 		"format": "wp-scripts format",
 		"lint": "wp-scripts lint-js",
 		"start": "wp-scripts start"

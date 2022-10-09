@@ -46,10 +46,6 @@ function cleanUp(cb) {
   });
 }
 
-function copyToTrunk() {
-  return gulp.src(['./tmp/**']).pipe(gulp.dest('svn/trunk'));
-}
-
 function createZip() {
   return gulp.src(['./tmp/**']).pipe(zip('sfv.zip', {compress: false})).pipe(gulp.dest('dist'));
 }
