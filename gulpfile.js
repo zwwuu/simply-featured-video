@@ -70,6 +70,7 @@ function copy() {
     '!./src/**',
     '!./dist/**',
     '!./tmp/**',
+    '!./docs/**',
     '!./gulpfile.js',
     '!./.gitignore']).pipe(gulp.dest('tmp'));
 }
@@ -113,8 +114,8 @@ async function upload() {
   });
 }
 
-exports.deploy = gulp.series(clean, js, copy, replaceVersion, createZip, copyToTrunk, upload, cleanUp);
+exports.deploy = gulp.series(clean, js, copy, replaceVersion, createZip, upload, cleanUp);
 
-exports.build = gulp.series(clean, js, copy, replaceVersion, createZip, copyToTrunk, cleanUp);
+exports.build = gulp.series(clean, js, copy, replaceVersion, createZip, cleanUp);
 
 exports.clean = clean;
