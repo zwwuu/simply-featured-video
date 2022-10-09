@@ -68,6 +68,10 @@ $attr is either a string or an array representing <video> HTML element attribute
 
 == Changelog ==
 
+= 1.1.0 =
+Fix error on plugin deactivate.
+Add instructions in setting page.
+
 = 1.0.0 =
 
 Initial release.
