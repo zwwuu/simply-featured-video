@@ -9,7 +9,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Simply Featured Video
- * Plugin URI:        sfv.zwwuu.dev
+ * Plugin URI:        https://zwwuu.github.io/simply-featured-video/
  * Description:       Simply Featured Video allows you to set a featured video from media library, YouTube, Vimeo, and more.
  * Version:           {{version}}
  * Author:            zwwuu
