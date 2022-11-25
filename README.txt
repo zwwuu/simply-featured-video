@@ -2,7 +2,7 @@
 Contributors: zwwuu
 Tags: video plugin, video embed, video, featured video, YouTube, Vimeo
 Requires at least: 5.8
-Tested up to: 6.0
+Tested up to: 6.1
 Stable tag: {{version}}
 License: GPL-3.0 license or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -67,6 +67,10 @@ All parameters are optional. If no $post is given the current post’s ID will b
 $attr is either a string or an array representing <video> HTML element attributes, e.g. array('loop'=> true).
 
 == Changelog ==
+
+= 1.2.0 =
+Bumped the “Tested up to” tag to WP 6.1
+Bumped SDK version
 
 = 1.1.0 =
 Fix error on plugin deactivate.

@@ -50,7 +50,7 @@ settings_errors( $this->plugin_name . '_messages' );
     </ul>
     <p><?php _e( "All parameters are optional. If no <code>\$post</code> is given the current post's ID will be used.", 'simply-featured-video' ); ?></p>
     <p><?php _e( "<code>\$attr</code> is either a string or an array representing HTML element attributes, e.g. <code>array('loop'=> true)</code>.", 'simply-featured-video' ); ?>    </p>
-    <a class="button" href="https://github.com/zwwuu/simply-featured-video">
+    <a class="button" href="https://zwwuu.github.io/simply-featured-video/">
 		<?php _e( "Read Documentation", 'simply-featured-video' ); ?>
     </a>
 
