@@ -26,124 +26,115 @@
  * 6. The `$:nomunge` YUI option is no longer necessary.
  */
 
-function NoJQueryPostMessageMixin( postBinding, receiveBinding ) {
-	var setMessageCallback,
-		unsetMessageCallback,
-		currentMsgCallback,
-		intervalId,
-		lastHash,
-		cacheBust = 1;
+function NoJQueryPostMessageMixin(postBinding, receiveBinding) {
 
-	if ( window.postMessage ) {
-		if ( window.addEventListener ) {
-			setMessageCallback = function ( callback ) {
-				window.addEventListener( 'message', callback, false );
-			};
+    var setMessageCallback, unsetMessageCallback, currentMsgCallback,
+        intervalId, lastHash, cacheBust = 1;
 
-			unsetMessageCallback = function ( callback ) {
-				window.removeEventListener( 'message', callback, false );
-			};
-		} else {
-			setMessageCallback = function ( callback ) {
-				window.attachEvent( 'onmessage', callback );
-			};
+  if (window.postMessage) {
 
-			unsetMessageCallback = function ( callback ) {
-				window.detachEvent( 'onmessage', callback );
-			};
-		}
+    if (window.addEventListener) {
+      setMessageCallback = function(callback) {
+        window.addEventListener('message', callback, false);
+      }
 
-		this[ postBinding ] = function ( message, targetUrl, target ) {
-			if ( ! targetUrl ) {
-				return;
-			}
+      unsetMessageCallback = function(callback) {
+        window.removeEventListener('message', callback, false);
+      }
+    } else {
+      setMessageCallback = function(callback) {
+        window.attachEvent('onmessage', callback);
+      }
 
-			// The browser supports window.postMessage, so call it with a targetOrigin
-			// set appropriately, based on the targetUrl parameter.
-			target.postMessage(
-				message,
-				targetUrl.replace( /([^:]+:\/\/[^\/]+).*/, '$1' )
-			);
-		};
+      unsetMessageCallback = function(callback) {
+        window.detachEvent('onmessage', callback);
+      }
+    }
 
-		// Since the browser supports window.postMessage, the callback will be
-		// bound to the actual event associated with window.postMessage.
-		this[ receiveBinding ] = function ( callback, sourceOrigin, delay ) {
-			// Unbind an existing callback if it exists.
-			if ( currentMsgCallback ) {
-				unsetMessageCallback( currentMsgCallback );
-				currentMsgCallback = null;
-			}
+    this[postBinding] = function(message, targetUrl, target) {
+      if (!targetUrl) {
+        return;
+      }
 
-			if ( ! callback ) {
-				return false;
-			}
+      // The browser supports window.postMessage, so call it with a targetOrigin
+      // set appropriately, based on the targetUrl parameter.
+      target.postMessage( message, targetUrl.replace( /([^:]+:\/\/[^\/]+).*/, '$1' ) );
+    }
 
-			// Bind the callback. A reference to the callback is stored for ease of
-			// unbinding.
-			currentMsgCallback = setMessageCallback( function ( e ) {
-				switch ( Object.prototype.toString.call( sourceOrigin ) ) {
-					case '[object String]':
-						if ( sourceOrigin !== e.origin ) {
-							return false;
-						}
-						break;
-					case '[object Function]':
-						if ( sourceOrigin( e.origin ) ) {
-							return false;
-						}
-						break;
-				}
+    // Since the browser supports window.postMessage, the callback will be
+    // bound to the actual event associated with window.postMessage.
+    this[receiveBinding] = function(callback, sourceOrigin, delay) {
+      // Unbind an existing callback if it exists.
+      if (currentMsgCallback) {
+        unsetMessageCallback(currentMsgCallback);
+        currentMsgCallback = null;
+      }
 
-				callback( e );
-			} );
-		};
-	} else {
-		this[ postBinding ] = function ( message, targetUrl, target ) {
-			if ( ! targetUrl ) {
-				return;
-			}
+      if (!callback) {
+        return false;
+      }
 
-			// The browser does not support window.postMessage, so set the location
-			// of the target to targetUrl#message. A bit ugly, but it works! A cache
-			// bust parameter is added to ensure that repeat messages trigger the
-			// callback.
-			target.location =
-				targetUrl.replace( /#.*$/, '' ) +
-				'#' +
-				+new Date() +
-				cacheBust++ +
-				'&' +
-				message;
-		};
+      // Bind the callback. A reference to the callback is stored for ease of
+      // unbinding.
+      currentMsgCallback = setMessageCallback(function(e) {
+        switch(Object.prototype.toString.call(sourceOrigin)) {
+        case '[object String]':
+          if (sourceOrigin !== e.origin) {
+            return false;
+          }
+          break;
+        case '[object Function]':
+          if (sourceOrigin(e.origin)) {
+            return false;
+          }
+          break;
+        }
 
-		// Since the browser sucks, a polling loop will be started, and the
-		// callback will be called whenever the location.hash changes.
-		this[ receiveBinding ] = function ( callback, sourceOrigin, delay ) {
-			if ( intervalId ) {
-				clearInterval( intervalId );
-				intervalId = null;
-			}
+        callback(e);
+      });
+    };
 
-			if ( callback ) {
-				delay =
-					typeof sourceOrigin === 'number'
-						? sourceOrigin
-						: typeof delay === 'number'
-						? delay
-						: 100;
+  } else {
 
-				intervalId = setInterval( function () {
-					var hash = document.location.hash,
-						re = /^#?\d+&/;
-					if ( hash !== lastHash && re.test( hash ) ) {
-						lastHash = hash;
-						callback( { data: hash.replace( re, '' ) } );
-					}
-				}, delay );
-			}
-		};
-	}
+    this[postBinding] = function(message, targetUrl, target) {
+      if (!targetUrl) {
+        return;
+      }
 
-	return this;
+      // The browser does not support window.postMessage, so set the location
+      // of the target to targetUrl#message. A bit ugly, but it works! A cache
+      // bust parameter is added to ensure that repeat messages trigger the
+      // callback.
+      target.location = targetUrl.replace( /#.*$/, '' ) + '#' + (+new Date) + (cacheBust++) + '&' + message;
+    }
+
+    // Since the browser sucks, a polling loop will be started, and the
+    // callback will be called whenever the location.hash changes.
+    this[receiveBinding] = function(callback, sourceOrigin, delay) {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+
+      if (callback) {
+        delay = typeof sourceOrigin === 'number'
+          ? sourceOrigin
+          : typeof delay === 'number'
+            ? delay
+            : 100;
+
+        intervalId = setInterval(function(){
+          var hash = document.location.hash,
+            re = /^#?\d+&/;
+          if ( hash !== lastHash && re.test( hash ) ) {
+            lastHash = hash;
+            callback({ data: hash.replace( re, '' ) });
+          }
+        }, delay );
+      }
+    };
+
+  }
+
+  return this;
 }
