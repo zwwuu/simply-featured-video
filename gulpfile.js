@@ -35,7 +35,7 @@ function clean(cb) {
   rimraf('tmp/', {}, function(err) {
     cb(err);
   });
-  rimraf('svn/trunk/', {}, function(err) {
+  rimraf('svn/trunk/*', {}, function(err) {
     cb(err);
   });
 }

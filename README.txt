@@ -10,7 +10,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Simply Featured Video allows you to set a featured video from media library, YouTube, Vimeo, and more.
 
 == Description ==
-Simply Featured Video is a featured video plugin that allow tou to import video from media library or third party video platform into your WordPress post and embed the video automatically.
+Simply Featured Video is a featured video plugin that allows you to import video from media library or third party video platform into your WordPress post and embeds the video automatically.
 
 The featured video can be place anywhere in your post content where you want the video to be displayed.
 
@@ -67,6 +67,8 @@ All parameters are optional. If no $post is given the current post’s ID will b
 $attr is either a string or an array representing <video> HTML element attributes, e.g. array('loop'=> true).
 
 == Changelog ==
+= 1.3.0 =
+Fix video not loading when using local media
 
 = 1.2.0 =
 Bumped the “Tested up to” tag to WP 6.1

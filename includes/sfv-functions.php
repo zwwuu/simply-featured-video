@@ -106,7 +106,6 @@ function sfv_get_post_video_id( $post = null ) {
 		$video = json_decode( $video, true );
 
 		if ( isset( $video['id'] ) ) {
-
 			$video_id = $video['id'];
 		}
 	}
@@ -171,20 +170,17 @@ function sfv_get_the_post_video( $post = null, $attr = '' ) {
 			 */
 			do_action( 'sfv_begin_fetch_post_video_html', $post->ID, $post_video_id );
 
-			$video_metadata = wp_get_attachment_metadata( $post_video_id );
-			$video          = get_post_meta( $post->ID, 'sfv_video', true );
-			$video          = json_decode( $video, true );
+			$video_metadata = get_post( $post_video_id );
+			$sfv_meta       = get_post_meta( $post->ID, 'sfv_video', true );
+			$sfv_meta       = json_decode( $sfv_meta, true );
 
-			if ( $video_metadata && $video ) {
+			if ( $video_metadata && $sfv_meta ) {
 				$video_url      = wp_get_attachment_url( $post_video_id );
-				$size_class     = $video_metadata['width'] . 'x' . $video_metadata['height'];
-				$video_settings = $video['settings'];
+				$video_settings = $sfv_meta['settings'];
 
 				$default_attr = array(
-					'class'  => "attachment-$size_class size-$size_class attachment-video",
+					'class'  => "attachment-video",
 					'alt'    => trim( strip_tags( wp_get_attachment_caption( $post_video_id ) ) ),
-					'width'  => $video_metadata['width'],
-					'height' => $video_metadata['height'],
 				);
 				$default_attr = array_merge( $default_attr, $video_settings );
 				unset( $default_attr['poster'] );
@@ -196,7 +192,7 @@ function sfv_get_the_post_video( $post = null, $attr = '' ) {
 
 				if ( sfv_fs()->is__premium_only() ) {
 					if ( sfv_fs()->can_use_premium_code() ) {
-						if ( $video['useFeaturedImageAsPoster'] ) {
+						if ( $sfv_meta['useFeaturedImageAsPoster'] ) {
 							$attr['poster'] = get_the_post_thumbnail_url( $post );
 						} else {
 							if ( ! empty( $video_settings['poster'] ) && is_string( $video_settings['poster'] ) ) {
@@ -222,7 +218,7 @@ function sfv_get_the_post_video( $post = null, $attr = '' ) {
 				}
 
 				$html = rtrim( "<video " . $attr_string ) . '>';
-				$html .= '<source src="' . esc_url( $video_url ) . '" type="' . esc_attr( 'video/' . $video_metadata['fileformat'] ) . '">';
+				$html .= '<source src="' . esc_url( $video_url ) . '" type="' . esc_attr( $video_metadata->post_mime_type ) . '">';
 				$html .= __( 'Your browser does not support the video tag.', 'simply-featured-video' );
 				$html .= '</video>';
 			}
@@ -246,7 +242,6 @@ function sfv_get_the_post_video( $post = null, $attr = '' ) {
 			$html = wp_oembed_get( $video_url );
 		}
 	}
-
 
 	/**
 	 * Filters the post video HTML.
