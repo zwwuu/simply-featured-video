@@ -1,5 +1,6 @@
 .editor-simply-featured-video__dropzone {
     position: relative;
+    min-height: 100px;
 }
 
 .editor-simply-featured-video__container > * {
