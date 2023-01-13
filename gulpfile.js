@@ -25,25 +25,14 @@ function generateOption(method, contentMD5, contentType, resourceURL) {
   return options;
 }
 
-function clean(cb) {
-  rimraf('dist/', {}, function(err) {
-    cb(err);
-  });
-  rimraf('build/', {}, function(err) {
-    cb(err);
-  });
-  rimraf('tmp/', {}, function(err) {
-    cb(err);
-  });
-  rimraf('svn/trunk/*', {}, function(err) {
-    cb(err);
-  });
+async function clean(cb) {
+  await rimraf(['dist/', 'build/', 'tmp/', 'svn/trunk']);
+  cb();
 }
 
-function cleanUp(cb) {
-  rimraf('tmp/', {}, function(err) {
-    cb(err);
-  });
+async function cleanUp(cb) {
+  await rimraf('tmp/',)
+  cb();
 }
 
 function createZip() {
