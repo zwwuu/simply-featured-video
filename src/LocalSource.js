@@ -1,7 +1,7 @@
 import {MediaUpload, MediaUploadCheck} from '@wordpress/block-editor';
 import {__} from '@wordpress/i18n';
 import {Button, DropZone, SelectControl, Spinner, ToggleControl} from '@wordpress/components';
-import {useSelect} from '@wordpress/data';
+import {select, useSelect} from '@wordpress/data';
 
 const ALLOWED_MEDIA_TYPES = ['video'];
 const options = [
@@ -38,7 +38,6 @@ export default function LocalSource({featuredVideo, handleUpdate}) {
         <MediaUpload
             title={__('Featured video')}
             onSelect={(selectedMedia) => {
-              console.log(selectedMedia);
               handleUpdate('id', selectedMedia.id);
             }}
             allowedTypes={ALLOWED_MEDIA_TYPES}

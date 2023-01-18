@@ -44,7 +44,6 @@ const SimplyFeaturedVideo = () => {
     const data = set(featuredVideo, path, value);
     editPost({meta: {sfv_video: JSON.stringify(data)}});
     setVideo(data);
-    console.log(`${path}: ${value}`);
   };
 
   return (
@@ -82,83 +81,6 @@ const SimplyFeaturedVideo = () => {
       </PostTypeSupportCheck>
   );
 };
-
-// const applyWithSelect = withSelect((select) => {
-//     const {getMedia} = select('core');
-//     const {getEditedPostAttribute} = select('core/editor');
-//     const postMeta = getEditedPostAttribute('meta');
-//
-//     try {
-//         const featuredVideo = JSON.parse(postMeta.sfv_video);
-//         if (isObject(featuredVideo)) {
-//             return {
-//                 featuredVideo,
-//                 media: getMedia(featuredVideo.id),
-//                 useLocalVideo: featuredVideo.useLocal,
-//             };
-//         }
-//         return {
-//             featuredVideo: defaultVideo,
-//             media: null,
-//             useLocalVideo: defaultVideo.useLocal,
-//         };
-//     } catch (e) {
-//         return {
-//             featuredVideo: defaultVideo,
-//             media: null,
-//             useLocalVideo: defaultVideo.useLocal,
-//         };
-//     }
-// });
-//
-// const applyWithDispatch = withDispatch(
-//     (dispatch, {noticeOperations}, {select}) => {
-//         const {editPost} = dispatch('core/editor');
-//         const {getEditedPostAttribute} = select('core/editor');
-//         const postMeta = getEditedPostAttribute('meta');
-//         let featuredVideo = {};
-//
-//         try {
-//             featuredVideo = JSON.parse(postMeta.sfv_video);
-//         } catch (e) {
-//             featuredVideo = defaultVideo;
-//         }
-//
-//         return {
-//             onUpdateMeta: (path, value) => {
-//                 featuredVideo = set(featuredVideo, path, value);
-//                 editPost({
-//                     meta: {sfv_video: JSON.stringify(featuredVideo)},
-//                 });
-//             },
-//             onDropVideo(filesList) {
-//                 select('core/block-editor')
-//                     .getSettings()
-//                     .mediaUpload({
-//                         allowedTypes: ALLOWED_MEDIA_TYPES,
-//                         filesList,
-//                         onFileChange([video]) {
-//                             featuredVideo.id = video.id;
-//                             editPost({
-//                                 meta: {
-//                                     sfv_video: JSON.stringify(featuredVideo),
-//                                 },
-//                             });
-//                         },
-//                         onError(message) {
-//                             noticeOperations.removeAllNotices();
-//                             noticeOperations.createErrorNotice(message);
-//                         },
-//                     });
-//             },
-//             onRemoveVideo() {
-//                 editPost({
-//                     meta: {sfv_video: JSON.stringify(defaultVideo)},
-//                 });
-//             },
-//         };
-//     }
-// );
 
 registerPlugin('plugin-simply-featured-video-panel', {
   render: SimplyFeaturedVideo, icon: null,
